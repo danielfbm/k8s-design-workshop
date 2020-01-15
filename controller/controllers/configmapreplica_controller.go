@@ -31,6 +31,8 @@ func (r *ConfigMapReplicaReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 }
 
 func (r *ConfigMapReplicaReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	// r.Client = mgr.GetClient()
+	// r.Scheme = mgr.GetScheme()
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&replicav1alpha1.ConfigMapReplica{}).
 		Complete(r)

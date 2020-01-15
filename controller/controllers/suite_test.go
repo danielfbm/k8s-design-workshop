@@ -54,6 +54,8 @@ var _ = BeforeSuite(func(done Done) {
 	Expect(err).ToNot(HaveOccurred())
 	Expect(k8sClient).ToNot(BeNil())
 
+	logf.Log.Info("scheme", "scheme", scheme.Scheme, "client", k8sClient, "testEnv", testEnv)
+
 	close(done)
 }, 60)
 

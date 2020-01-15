@@ -1,0 +1,110 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.4
+  creationTimestamp: null
+  name: configmapreplicas.replica.example.com
+spec:
+  group: replica.example.com
+  names:
+    kind: ConfigMapReplica
+    listKind: ConfigMapReplicaList
+    plural: configmapreplicas
+    singular: configmapreplica
+  scope: Cluster
+  validation:
+    openAPIV3Schema:
+      description: ConfigMapReplica is the Schema for the configmapreplicas API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: ConfigMapReplicaSpec defines the desired state of ConfigMapReplica
+          properties:
+            selector:
+              additionalProperties:
+                type: string
+              description: Selector as namespace selector rule to replicate configmaps
+                to
+              type: object
+            template:
+              description: Template defines the data that should be replicated
+              properties:
+                data:
+                  additionalProperties:
+                    type: string
+                  description: Data to be replicated
+                  type: object
+                labels:
+                  additionalProperties:
+                    type: string
+                  description: Labels to be given to replicated ConfigMap
+                  type: object
+              type: object
+          required:
+          - selector
+          - template
+          type: object
+        status:
+          description: ConfigMapReplicaStatus defines the observed state of ConfigMapReplica
+          properties:
+            configMapStatuses:
+              description: Status for each configmap
+              items:
+                description: ConfigMapReplicaCopy a condition for one Copy
+                properties:
+                  lastProbeTime:
+                    description: Last time we probed the condition
+                    format: date-time
+                    type: string
+                  lastTransitionTime:
+                    description: Last time the condition transitioned
+                    format: date-time
+                    type: string
+                  message:
+                    description: Message detail for Reason
+                    type: string
+                  name:
+                    description: Name for resource
+                    type: string
+                  namespace:
+                    description: Namespace of resource
+                    type: string
+                  ready:
+                    description: Ready returns true when a configmap is ready
+                    type: boolean
+                  reason:
+                    description: Reason for not being ready. CamelCase
+                    type: string
+                required:
+                - name
+                - namespace
+                - ready
+                type: object
+              type: array
+          type: object
+      type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

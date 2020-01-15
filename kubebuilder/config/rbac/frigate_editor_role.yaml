@@ -1,0 +1,26 @@
+# permissions to do edit frigates.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: frigate-editor-role
+rules:
+- apiGroups:
+  - ship.danielfbm.github.io
+  resources:
+  - frigates
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ship.danielfbm.github.io
+  resources:
+  - frigates/status
+  verbs:
+  - get
+  - patch
+  - update

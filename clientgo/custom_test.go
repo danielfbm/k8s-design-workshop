@@ -51,6 +51,7 @@ func TestClientset(t *testing.T) {
 
 	// 1.2 implement the Reaction
 	// using prepend to put it before the tracker implementation of the method above
+	// verb (as k8s defines) and resource (as api path)
 	cs.PrependReactor("get", "configmaps", func(action k8stesting.Action) (handled bool, ret runtime.Object, err error) {
 		// this implementation is just an example on the complexity level
 		// that it can support. for most use cases the behaviour should be simple

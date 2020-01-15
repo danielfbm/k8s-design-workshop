@@ -1,0 +1,7 @@
+domain: danielfbm.github.io
+repo: github.com/danielfbm/k8s-design-workshop/controller
+resources:
+- group: ship
+  kind: Frigate
+  version: v1beta1
+version: "2"

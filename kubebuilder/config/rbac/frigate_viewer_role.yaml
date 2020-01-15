@@ -1,0 +1,20 @@
+# permissions to do viewer frigates.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: frigate-viewer-role
+rules:
+- apiGroups:
+  - ship.danielfbm.github.io
+  resources:
+  - frigates
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ship.danielfbm.github.io
+  resources:
+  - frigates/status
+  verbs:
+  - get

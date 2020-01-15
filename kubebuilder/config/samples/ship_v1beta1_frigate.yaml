@@ -1,0 +1,7 @@
+apiVersion: ship.danielfbm.github.io/v1beta1
+kind: Frigate
+metadata:
+  name: frigate-sample
+spec:
+  # Add fields here
+  foo: bar

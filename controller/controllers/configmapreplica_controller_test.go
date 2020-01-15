@@ -129,7 +129,7 @@ var _ = Describe("ConfigMapReplica.Reconcile", func() {
 			Expect(k8sclient.List(ctx, list)).To(Succeed(), "listing configmaps")
 
 			Expect(list).ToNot(BeNil(), "should have a configmap list")
-			Expect(list.Items).To(HaveLen(1), "should have 1 configmap")
+			Expect(list.Items).To(HaveLen(2), "should have 2 configmaps (one for apiserver, one added here)")
 			Expect(result).ToNot(BeNil(), "crd should exist")
 			Expect(result.Status.ConfigMapStatuses).To(HaveLen(1), "should have 1 configmapStatus")
 		})

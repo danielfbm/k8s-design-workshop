@@ -97,8 +97,41 @@ var _ = Describe("ConfigMapReplica.Reconcile", func() {
 		close(stop)
 	})
 
-	// not a test case, just to make sure it compiles
-	It("TODO: implement real test case", func() {
-		Expect(input).To(BeNil())
+	
+	
+	Context("one namespace with matching label", func() {
+		BeforeEach(func() {
+			// add this namespace to make sure it will be generated
+			namespaces = append(namespaces, &corev1.Namespace{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "sample",
+					Labels: map[string]string{"key": "value"},
+				},
+			})
+
+			input = &replicav1alpha1.ConfigMapReplica{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "replica",
+				},
+				Spec: replicav1alpha1.ConfigMapReplicaSpec{
+					Template: replicav1alpha1.ConfigMapTemplate{
+						Labels: map[string]string{},
+						Data: map[string]string{"data.yaml": "some value for configmap"},
+					},
+					Selector: map[string]string{"key": "value"},
+				},
+			}
+			expectedConfigmapNumber = 1
+		})
+
+		It("should have one configmap", func() {
+			list := &corev1.ConfigMapList{}
+			Expect(k8sclient.List(ctx, list)).To(Succeed(), "listing configmaps")
+
+			Expect(list).ToNot(BeNil(), "should have a configmap list")
+			Expect(list.Items).To(HaveLen(1), "should have 1 configmap")
+			Expect(result).ToNot(BeNil(), "crd should exist")
+			Expect(result.Status.ConfigMapStatuses).To(HaveLen(1), "should have 1 configmapStatus")
+		})
 	})
 })

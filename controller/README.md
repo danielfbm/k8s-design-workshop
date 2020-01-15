@@ -276,5 +276,71 @@ var _ = Describe("ConfigMapReplica.Reconcile", func() {
 
 ```
 
-Now the test cases will start to fail. In the next step we will implement a test case and make sure the validation works
+**Now the test cases will start to fail**. In the next step we will implement a test case and make sure the validation works
+
+## Step 4
+
+Add the first test case to make sure we can correctly validate our business logic
+
+Delete:
+
+```golang
+    // not a test case, just to make sure it compiles
+	It("TODO: implement real test case", func() {
+		Expect(input).To(BeNil())
+	})
+```
+
+Add the following test case:
+
+```golang
+
+	Context("one namespace with matching label", func() {
+		BeforeEach(func() {
+			// add this namespace to make sure it will be generated
+			namespaces = append(namespaces, &corev1.Namespace{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "sample",
+					Labels: map[string]string{"key": "value"},
+				},
+			})
+
+			input = &replicav1alpha1.ConfigMapReplica{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: "replica",
+				},
+				Spec: replicav1alpha1.ConfigMapReplicaSpec{
+					Template: replicav1alpha1.ConfigMapTemplate{
+						Labels: map[string]string{},
+						Data: map[string]string{"data.yaml": "some value for configmap"},
+					},
+					Selector: map[string]string{"key": "value"},
+				},
+			}
+			expectedConfigmapNumber = 1
+		})
+
+		It("should have one configmap", func() {
+			list := &corev1.ConfigMapList{}
+			Expect(k8sclient.List(ctx, list)).To(Succeed(), "listing configmaps")
+
+			Expect(list).ToNot(BeNil(), "should have a configmap list")
+			Expect(list.Items).To(HaveLen(1), "should have 1 configmap")
+			Expect(result).ToNot(BeNil(), "crd should exist")
+			Expect(result.Status.ConfigMapStatuses).To(HaveLen(1), "should have 1 configmapStatus")
+		})
+	})
+```
+
+
+Running should give the following error
+
+```shell
+    Expected
+        <int>: 0
+    to equal
+        <int>: 1
+```
+
+Now we are ready to implement our first reconcile case
 

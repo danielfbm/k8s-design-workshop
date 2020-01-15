@@ -4,22 +4,49 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
-
 // ConfigMapReplicaSpec defines the desired state of ConfigMapReplica
 type ConfigMapReplicaSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Template defines the data that should be replicated
+	Template ConfigMapTemplate `json:"template"`
 
-	// Foo is an example field of ConfigMapReplica. Edit ConfigMapReplica_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// Selector as namespace selector rule to replicate configmaps to
+	Selector map[string]string `json:"selector"`
+}
+
+// ConfigMapTemplate template data for all replicated ConfigMaps
+type ConfigMapTemplate struct {
+	// Labels to be given to replicated ConfigMap
+	// +optional
+	Labels map[string]string `json:"labels,omitempty"`
+	// Data to be replicated
+	Data map[string]string `json:"data,omitempty"`
 }
 
 // ConfigMapReplicaStatus defines the observed state of ConfigMapReplica
 type ConfigMapReplicaStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+	// Status for each configmap
+	// +optional
+	ConfigMapStatuses []ConfigMapReplicaCopy `json:"configMapStatuses,omitempty"`
+}
+
+// ConfigMapReplicaCopy a condition for one Copy
+type ConfigMapReplicaCopy struct {
+	// Name for resource
+	Name string `json:"name"`
+	// Namespace of resource
+	Namespace string `json:"namespace"`
+	// Last time we probed the condition
+	LastProbeTime metav1.Time `json:"lastProbeTime,omitempty"`
+	// Last time the condition transitioned
+	LastTransitionTime metav1.Time `json:"lastTransitionTime,omitempty"`
+	// Ready returns true when a configmap is ready
+	Ready bool `json:"ready"`
+	// Reason for not being ready. CamelCase
+	// +optional
+	Reason string `json:"reason,omitempty"`
+	// Message detail for Reason
+	// +optional
+	Message string `json:"message,omitempty"`
 }
 
 // +kubebuilder:object:root=true

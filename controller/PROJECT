@@ -1,0 +1,7 @@
+domain: example.com
+repo: github.com/danielfbm/k8s-design-workshop/controller
+resources:
+- group: replica
+  kind: ConfigMapReplica
+  version: v1alpha1
+version: "2"

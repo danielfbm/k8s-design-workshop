@@ -1,0 +1,7 @@
+apiVersion: replica.example.com/v1alpha1
+kind: ConfigMapReplica
+metadata:
+  name: configmapreplica-sample
+spec:
+  # Add fields here
+  foo: bar

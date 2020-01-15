@@ -9,7 +9,7 @@ This is the full implementation step-by-step. Kubebuilder utilizes a more straig
 - Change below `domain`, `license`, `owner`, and `repo` flags
 
 ```shell
-kubebuilder init --domain danielfbm.github.io --license MIT --owner "Daniel Morinigo" --repo github.com/danielfbm/k8s-design-workshop/controller
+kubebuilder init --domain danielfbm.github.io --license MIT --owner "Daniel Morinigo" --repo github.com/danielfbm/k8s-design-workshop/kubebuilder
 ```
 
 

@@ -1,4 +1,4 @@
-module github.com/danielfbm/k8s-design-workshop/kubebuilder
+module github.com/danielfbm/k8s-design-workshop/controller
 
 go 1.13
 

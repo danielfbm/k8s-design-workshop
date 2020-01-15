@@ -1,0 +1,26 @@
+# permissions to do edit configmapreplicas.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: configmapreplica-editor-role
+rules:
+- apiGroups:
+  - replica.example.com
+  resources:
+  - configmapreplicas
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - replica.example.com
+  resources:
+  - configmapreplicas/status
+  verbs:
+  - get
+  - patch
+  - update
